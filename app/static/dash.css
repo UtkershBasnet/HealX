@@ -1,0 +1,158 @@
+/* HealX dashboard — minimal styling with light + dark mode. */
+
+:root {
+  --bg: #ffffff;
+  --fg: #0d1117;
+  --muted: #6e7681;
+  --border: #d0d7de;
+  --chip-bg: #f6f8fa;
+  --chip-border: #d0d7de;
+  --green: #1a7f37;
+  --green-bg: #dafbe1;
+  --red: #cf222e;
+  --red-bg: #ffebe9;
+  --amber: #9a6700;
+  --amber-bg: #fff8c5;
+  --link: #0969da;
+  --code-bg: #f6f8fa;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1117;
+    --fg: #e6edf3;
+    --muted: #8b949e;
+    --border: #30363d;
+    --chip-bg: #161b22;
+    --chip-border: #30363d;
+    --green: #3fb950;
+    --green-bg: #1f3622;
+    --red: #f85149;
+    --red-bg: #3d1f22;
+    --amber: #d29922;
+    --amber-bg: #3d3018;
+    --link: #58a6ff;
+    --code-bg: #161b22;
+  }
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--fg); }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+code, pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.muted { color: var(--muted); }
+
+/* ─── topbar ─── */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--border);
+}
+.topbar .brand { font-weight: 600; font-size: 16px; color: var(--fg); }
+.topbar nav a { margin-left: 20px; color: var(--muted); font-size: 13px; }
+.topbar nav a:hover { color: var(--fg); }
+
+main { padding: 24px; max-width: 1300px; margin: 0 auto; }
+
+/* ─── stats strip ─── */
+.stats-strip {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.stat-chip {
+  background: var(--chip-bg);
+  border: 1px solid var(--chip-border);
+  border-radius: 6px;
+  padding: 8px 14px;
+  display: flex; flex-direction: column; gap: 2px;
+  min-width: 90px;
+}
+.stat-chip .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.stat-chip .count { font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.stat-chip.green  { background: var(--green-bg); border-color: transparent; }
+.stat-chip.green  .count { color: var(--green); }
+.stat-chip.red    { background: var(--red-bg); border-color: transparent; }
+.stat-chip.red    .count { color: var(--red); }
+.stat-chip.amber  { background: var(--amber-bg); border-color: transparent; }
+.stat-chip.amber  .count { color: var(--amber); }
+
+/* ─── filters ─── */
+.filters {
+  display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap;
+  padding: 12px 0; border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+.filters label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); }
+.filters select, .filters input {
+  background: var(--bg); color: var(--fg);
+  border: 1px solid var(--border); border-radius: 5px;
+  padding: 5px 8px; font-size: 13px; min-width: 140px;
+}
+.filters button {
+  background: var(--link); color: white; border: 0; border-radius: 5px;
+  padding: 6px 14px; cursor: pointer; font-size: 13px; font-weight: 500;
+}
+.filters button.ghost {
+  background: transparent; color: var(--muted); border: 1px solid var(--border);
+}
+
+/* ─── jobs table ─── */
+.jobs-table-wrap { overflow-x: auto; }
+.jobs-table { width: 100%; border-collapse: collapse; }
+.jobs-table th, .jobs-table td {
+  padding: 8px 10px; text-align: left;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.jobs-table th { color: var(--muted); font-weight: 500; font-size: 11px; text-transform: uppercase; }
+.jobs-table tbody tr:hover { background: var(--chip-bg); }
+.jobs-table code { font-size: 12px; }
+
+.status-badge {
+  display: inline-block; padding: 2px 8px; border-radius: 10px;
+  font-size: 11px; font-weight: 500;
+  background: var(--chip-bg); color: var(--muted);
+}
+.status-badge.pr_opened { background: var(--green-bg); color: var(--green); }
+.status-badge.failed { background: var(--red-bg); color: var(--red); }
+.status-badge.needs-human-review { background: var(--amber-bg); color: var(--amber); }
+.status-badge.undiagnosable { background: var(--amber-bg); color: var(--amber); }
+.status-badge.repairing, .status-badge.retrying { background: var(--chip-bg); color: var(--link); }
+
+/* ─── job detail ─── */
+.job-header { margin-bottom: 24px; }
+.job-header h2 { margin: 0 0 6px 0; font-size: 18px; font-weight: 500; }
+.job-header code { background: var(--code-bg); padding: 1px 6px; border-radius: 4px; font-size: 13px; }
+.job-meta { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
+.job-meta strong { color: var(--fg); font-weight: 500; }
+
+.timeline-wrap h3, .attempts-wrap h3 { font-size: 14px; font-weight: 500; margin: 0 0 10px 0; }
+.timeline { list-style: none; padding: 0; margin: 0 0 32px 0; border-left: 2px solid var(--border); }
+.timeline li { position: relative; padding: 4px 0 16px 18px; font-size: 13px; }
+.timeline li::before {
+  content: ""; position: absolute; left: -7px; top: 8px;
+  width: 10px; height: 10px; background: var(--chip-bg); border: 2px solid var(--border); border-radius: 50%;
+}
+.timeline li.kind-pr_opened::before { background: var(--green); border-color: var(--green); }
+.timeline li.kind-terminal::before  { background: var(--red); border-color: var(--red); }
+.timeline li.kind-ci_result.failure::before { background: var(--red); border-color: var(--red); }
+.timeline li.kind-ci_result.success::before { background: var(--green); border-color: var(--green); }
+.timeline .ev-time { color: var(--muted); font-size: 11px; }
+.timeline .ev-kind { font-weight: 500; margin-right: 8px; }
+.timeline .ev-detail { color: var(--muted); margin-top: 2px; }
+
+.attempts-wrap details { background: var(--chip-bg); border: 1px solid var(--border); border-radius: 6px; padding: 10px 14px; margin-bottom: 10px; }
+.attempts-wrap summary { cursor: pointer; font-weight: 500; }
+.attempts-wrap pre { background: var(--code-bg); padding: 10px; border-radius: 4px; overflow-x: auto; max-height: 400px; font-size: 12px; }

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}HealX — Dashboard{% endblock %}
+
+{% block content %}
+<section class="stats-strip" id="stats-strip" data-loading="true">
+  <div class="stat-chip" data-bucket="queued"><span class="label">queued</span><span class="count">—</span></div>
+  <div class="stat-chip" data-bucket="repairing"><span class="label">repairing</span><span class="count">—</span></div>
+  <div class="stat-chip" data-bucket="retrying"><span class="label">retrying</span><span class="count">—</span></div>
+  <div class="stat-chip green" data-bucket="pr_opened"><span class="label">pr_opened</span><span class="count">—</span></div>
+  <div class="stat-chip red" data-bucket="failed"><span class="label">failed</span><span class="count">—</span></div>
+  <div class="stat-chip amber" data-bucket="needs-human-review"><span class="label">needs review</span><span class="count">—</span></div>
+  <div class="stat-chip" data-bucket="undiagnosable"><span class="label">undiagnosable</span><span class="count">—</span></div>
+  <div class="stat-chip neutral" id="fix-rate-chip"><span class="label">fix rate</span><span class="count">—</span></div>
+</section>
+
+<section class="filters">
+  <label>Status
+    <select id="filter-status">
+      <option value="">all</option>
+      <option value="queued">queued</option>
+      <option value="repairing">repairing</option>
+      <option value="retrying">retrying</option>
+      <option value="pr_opened">pr_opened</option>
+      <option value="failed">failed</option>
+      <option value="needs-human-review">needs-human-review</option>
+      <option value="undiagnosable">undiagnosable</option>
+    </select>
+  </label>
+  <label>Repo
+    <input type="text" id="filter-repo" placeholder="owner/repo" />
+  </label>
+  <label>Failure type
+    <input type="text" id="filter-failure-type" placeholder="TestFailure" />
+  </label>
+  <label>Since
+    <input type="date" id="filter-since" />
+  </label>
+  <button id="apply-filters">Apply</button>
+  <button id="clear-filters" class="ghost">Clear</button>
+</section>
+
+<section class="jobs-table-wrap">
+  <table class="jobs-table" id="jobs-table">
+    <thead>
+      <tr>
+        <th>Created</th>
+        <th>Repo</th>
+        <th>Branch</th>
+        <th>Status</th>
+        <th>Failure</th>
+        <th>Attempts</th>
+        <th>PR</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="jobs-tbody">
+      <tr><td colspan="8" class="muted">loading…</td></tr>
+    </tbody>
+  </table>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/dash.js"></script>
+{% endblock %}

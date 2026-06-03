@@ -1,0 +1,35 @@
+# FastAPI
+fastapi==0.115.12
+uvicorn[standard]==0.34.3
+httpx==0.28.1
+
+# Database
+sqlalchemy[asyncio]==2.0.41
+asyncpg==0.30.0
+psycopg2-binary==2.9.10
+alembic==1.15.2
+
+# Redis + Queue
+redis==5.3.0
+rq==2.3.0
+
+# GitHub Integration
+PyGithub==2.6.0
+
+# Config
+pydantic-settings==2.9.1
+
+# Logging
+structlog==25.4.0
+
+# LLM / Agents (Phase 3)
+langgraph==0.4.7
+langchain-anthropic==0.3.7
+langfuse==3.0.9
+
+# Utilities
+python-dotenv==1.1.0
+PyYAML==6.0.2
+
+# Dashboard (server-rendered HTML)
+jinja2==3.1.4

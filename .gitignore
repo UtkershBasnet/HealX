@@ -1,0 +1,59 @@
+# ─── Secrets ───
+.env
+.env.*
+!.env.example
+
+# ─── Python ───
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+venv/
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ─── IDE / editor ───
+.vscode/
+.idea/
+*.swp
+*.swo
+*.bak
+*~
+
+# ─── OS ───
+.DS_Store
+Thumbs.db
+
+# ─── Docker / runtime ───
+docker-compose.override.yml
+
+# ─── Alembic ───
+alembic/versions/*.pyc
+
+# ─── Logs ───
+*.log
+logs/
+
+# ─── Node (in case a frontend ever lands) ───
+node_modules/
+
+# ─── LaTeX aux (if any tex is compiled in-tree) ───
+*.aux
+*.fls
+*.out
+*.synctex.gz
+*.fdb_latexmk
+*.toc
+*.bbl
+*.blg
+
+
+# ─── Claude Code session metadata ───
+.claude/

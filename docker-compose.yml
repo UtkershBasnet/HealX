@@ -1,0 +1,80 @@
+# ─────────────────────────────────────────────
+# HealX — Docker Compose
+#
+# Services:
+#   - db:     PostgreSQL 16
+#   - redis:  Redis 7
+#   - app:    FastAPI (uvicorn)
+#   - worker: RQ worker
+# ─────────────────────────────────────────────
+
+services:
+  # ─── PostgreSQL ───
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: healx
+      POSTGRES_USER: healx
+      POSTGRES_PASSWORD: healx
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U healx"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # ─── Redis ───
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # ─── FastAPI App ───
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://healx:healx@db:5432/healx
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - .:/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  # ─── RQ Worker ───
+  worker:
+    build: .
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://healx:healx@db:5432/healx
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - .:/app
+    command: python -m app.worker
+
+volumes:
+  pgdata:
+  redisdata:

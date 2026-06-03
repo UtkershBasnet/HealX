@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}HealX — Job {{ job_id }}{% endblock %}
+
+{% block content %}
+<section class="job-header" id="job-header">
+  <h2 id="job-title">Job <code>{{ job_id }}</code></h2>
+  <div class="job-meta" id="job-meta"><span class="muted">loading…</span></div>
+</section>
+
+<section class="timeline-wrap">
+  <h3>Timeline</h3>
+  <ol class="timeline" id="timeline"><li class="muted">loading…</li></ol>
+</section>
+
+<section class="attempts-wrap">
+  <h3>Attempts</h3>
+  <div id="attempts"><p class="muted">loading…</p></div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  window.HEALX_JOB_ID = "{{ job_id }}";
+</script>
+<script src="/static/dash.js"></script>
+<script src="/static/job_detail.js"></script>
+{% endblock %}
