@@ -15,8 +15,10 @@ RUN pip install --upgrade pip \
 # Copy app code
 COPY . .
 
-# Expose port
-EXPOSE 8000
+# Expose port (Render uses PORT env var, defaults to 10000)
+EXPOSE 10000
 
 # Default command: run FastAPI
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+# In production (Render), the start command in render.yaml overrides this.
+# Locally, fall back to port 8000.
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

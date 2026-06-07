@@ -1,0 +1,70 @@
+# ─────────────────────────────────────────────
+# HealX — Render Blueprint
+#
+# Deploys:
+#   - healx-web:    FastAPI web service (Docker)
+#   - healx-worker: RQ background worker (Docker)
+#
+# External services (configure env vars manually):
+#   - PostgreSQL:  Supabase
+#   - Redis:       Upstash
+# ─────────────────────────────────────────────
+
+services:
+  # ─── FastAPI Web Service ───
+  - type: web
+    name: healx-web
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: LOG_LEVEL
+        value: INFO
+      - key: LANGFUSE_HOST
+        value: https://cloud.langfuse.com
+      # ─── Secrets (set in Render dashboard) ───
+      - key: DATABASE_URL
+        sync: false
+      - key: REDIS_URL
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: GITHUB_WEBHOOK_SECRET
+        sync: false
+      - key: API_KEY
+        sync: false
+      - key: LANGFUSE_PUBLIC_KEY
+        sync: false
+      - key: LANGFUSE_SECRET_KEY
+        sync: false
+
+  # ─── RQ Background Worker ───
+  - type: worker
+    name: healx-worker
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerCommand: python -m app.worker
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: LOG_LEVEL
+        value: INFO
+      - key: LANGFUSE_HOST
+        value: https://cloud.langfuse.com
+      # ─── Secrets (set in Render dashboard) ───
+      - key: DATABASE_URL
+        sync: false
+      - key: REDIS_URL
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: GITHUB_WEBHOOK_SECRET
+        sync: false
+      - key: API_KEY
+        sync: false
+      - key: LANGFUSE_PUBLIC_KEY
+        sync: false
+      - key: LANGFUSE_SECRET_KEY
+        sync: false
